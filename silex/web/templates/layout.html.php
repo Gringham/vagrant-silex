@@ -1,4 +1,4 @@
-
+/////////////////////////////////////////////////////////////////////////
 
 <a <?= $active == 'home'? 'class = "active"':'' ?> href="home">Home</a>
 <a <?= $active == 'blog'? 'class = "active"':'' ?> href="blog">Blog</a>
