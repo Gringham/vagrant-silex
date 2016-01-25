@@ -1,8 +1,8 @@
 
 
-<a href="home">Home</a>
-<a href="blog">Blog</a>
-<a href="new">New</a>
+<a <?= $active == 'home'? 'class = "active"':'' ?> href="home">Home</a>
+<a <?= $active == 'blog'? 'class = "active"':'' ?> href="blog">Blog</a>
+<a <?= $active == 'new'? 'class = "active"':'' ?> href="new">New</a>
 
 
 <h1>
