@@ -19,6 +19,37 @@ $app->get('/home', function () use ($template,$app) {
     );
 });
 
+$app->get('/members', function () use ($template, $app, $dbConnection){
+    if($app['session']->get('user') == 'admin') {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
+        $inhalt = $dbConnection->fetchAll("SELECT * from usrpwd");
+        return $template->render(
+            'members.html.php',
+            array('active' => 'new_done', 'cont' => $inhalt, 'in' => $app['session']->get('user'))
+        );
+    }
+    else{
+        $app->redirect('\sign');
+    }
+});
+
+$app->post('member/delete/{usr}', function ($usr) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
+    if($app['session']->get('user') == 'admin' and $usr != 'admin') {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
+        $dbConnection->delete('usrpwd', array('username' => $usr));                       //Dann lösche den Blogpost an der übergebenen Stelle
+        return $template->render(
+            'new_done.html.php',
+            array('active' => 'new_done', 'cont' => "Der Nutzer wurde erfolgreich gelöscht", 'titel' => "Glückwunsch:", 'in' => $app['session']->get('user'))
+        );
+    }
+    else{
+        return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
+            'new_done.html.php',
+            array('active' => 'new_done', 'cont' => "Du besitzt nicht die Rechte den Nutzer zu löschen", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
+        );
+    }
+
+
+});
+
  $app->get('/sign', function () use ($template, $app){
     return $template->render(
         'sign.html.php',
@@ -51,13 +82,21 @@ $app->post('/register/start', function () use ($template, $app){
     return $app->redirect('/register');
 });
 
-$app->post('blog/delete/{page}', function ($page) use ($template, $app, $dbConnection){
-
-        $dbConnection->delete('blog_post', array('id'=>1));
-        return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
-            'new_done.html.php',
-            array('active' => 'new_done', 'cont' => $page, 'titel' => "Warnung:" , 'in' => $app['session']->get('user'))
-        );
+$app->post('blog/delete/{page}', function ($page) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
+        $author = $dbConnection->fetchAll("SELECT author FROM blog_post WHERE id=$page");
+        if($app['session']->get('user') == $author[0]['author']) {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
+            $dbConnection->delete('blog_post', array('id' => $page));                       //Dann lösche den Blogpost an der übergebenen Stelle
+            return $template->render(
+                'new_done.html.php',
+                array('active' => 'new_done', 'cont' => "Der Beitrag wurde erfolgreich gelöscht", 'titel' => "Glückwunsch:", 'in' => $app['session']->get('user'))
+            );
+        }
+        else{
+            return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
+                'new_done.html.php',
+                array('active' => 'new_done', 'cont' => "Du besitzt nicht die Rechte den Beitrag zu löschen", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
+            );
+        }
 
 
 });
@@ -81,11 +120,18 @@ $app->post('/sign', function (Request $request) use ($template, $app, $dbConnect
     if($compusr===$usr){                                             //Existiert er, wird das Passwort verglichen
         if($comppwd===$pas){
             $app['session']->set('user', $usr);   //Ist das Passwort richtig wird der Nutzer eingeloggt
-        }}
+        }
+        else{
+            return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
+                'new_done.html.php',
+                array('active' => 'new_done', 'cont' => "Falsches Passwort eingegeben!", 'titel' => "Warnung:" , 'in' => $app['session']->get('user'))
+            );
+        }
+    }
     else{
         return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
             'new_done.html.php',
-            array('active' => 'new_done', 'cont' => "Falschen Nutzer oder falsches Passwort eingegeben!", 'titel' => "Warnung:" , 'in' => $app['session']->get('user'))
+            array('active' => 'new_done', 'cont' => "Falschen Nutzer eingegeben!", 'titel' => "Warnung:" , 'in' => $app['session']->get('user'))
          );
         }
 
@@ -104,7 +150,7 @@ $app->post('/register', function (Request $request) use ($template, $app, $dbCon
     $usr = $request->get('Sign');           //Hier wird der eingegebene Name abgefragt
     $pas = $request->get('Passwort');       //Hier wird das eingegebene Passwort abgefragt
     $compusr = "";                          //In diese Variable wird der Nutzername aus der Datenbank geladen
-    $comppwd = "";
+
 
 
     $userlist = $dbConnection->fetchAll("SELECT * FROM usrpwd");     //Hier wird die Liste der eingetragenen Nutzer + Passwörter gespeicher
