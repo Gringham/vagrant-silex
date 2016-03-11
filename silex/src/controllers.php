@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @var $template symfony\component\templating\DelegatingEngine
  */
 
-
+//Hinweis, die new_done.html.php wird oftmals als allgemeine Antwort verwendet
 
 $dbConnection = $app['db'];
 $template = $app['templating'];
@@ -48,7 +48,7 @@ $app->post('member/delete/{usr}', function ($usr) use ($template, $app, $dbConne
     }
 
 
-});
+}); //Einige Browser sind nicht direkt kompatibel mit delete Typ Formularen, deshalb wurde hier eine post Methode genutzt
 
  $app->get('/sign', function () use ($template, $app){
     return $template->render(
@@ -99,7 +99,7 @@ $app->post('blog/delete/{page}', function ($page) use ($template, $app, $dbConne
         }
 
 
-});
+}); //Einige Browser sind nicht direkt kompatibel mit delete Typ Formularen, deshalb wurde hier eine post Methode genutzt
 
 
 $app->post('/sign', function (Request $request) use ($template, $app, $dbConnection){
@@ -144,7 +144,7 @@ $app->post('/sign', function (Request $request) use ($template, $app, $dbConnect
         array('active' => 'new_done', 'cont' => "Du wurdest eingeloggt als $usr", 'titel' => "Glückwunsch" , 'in' => $app['session']->get('user'))
     );
 
-});
+});  //Der Controller der Login Seite
 
 $app->post('/register', function (Request $request) use ($template, $app, $dbConnection) {
     $usr = $request->get('Sign');           //Hier wird der eingegebene Name abgefragt
@@ -158,7 +158,6 @@ $app->post('/register', function (Request $request) use ($template, $app, $dbCon
     foreach ($userlist as $row) {                                      //Hier wird gesucht, ob der eingegebene Nutzer bereits existiert
         if ($row['username'] === $usr) {
             $compusr = $usr;
-            $comppwd = $row['password'];
         }
     }
     if ($compusr === $usr) {                                             //Existiert er, wird das Passwort verglichen
@@ -176,8 +175,8 @@ $app->post('/register', function (Request $request) use ($template, $app, $dbCon
         $app['session']->set('user', $usr);
         $dbConnection->insert(
             'usrpwd',
-            array('username' => $usr,
-                'password' => $pas,
+            array('username' => htmlspecialchars($usr),  //gegen Codeinjection
+                'password' => htmlspecialchars($pas),
             ));
 
     }
@@ -187,7 +186,7 @@ $app->post('/register', function (Request $request) use ($template, $app, $dbCon
         'new_done.html.php',
         array('active' => 'new_done', 'cont' => "Du wurdest eingeloggt als $usr", 'titel' => "Glückwunsch", 'in' => $app['session']->get('user'))
     );
-});
+}); //Der Controller der Registrierungsseite
 
 $app->get('/blog', function () use ($template, $dbConnection, $app) {
     $inhalt = $dbConnection->fetchAll("SELECT * from blog_post");
@@ -213,40 +212,40 @@ $app->get('/blog/{page}', function ($page) use ($template, $dbConnection, $app) 
         );}
 });
 
-$app->match('/new', function (Request $request) use ($template, $dbConnection,$app) {
+$app->match('/new', function (Request $request) use ($template, $dbConnection,$app) { //Diese Methode entstand im Unterricht um match zu testen, ich persönlich hätte sie lieber in get und post geteilt
     if (null === $user = $app['session']->get('user')) return $app->redirect('/sign');
 
-    if ($request->isMethod('POST')) {
+    if ($request->isMethod('POST')) {  //Im Falle eine Post Methode
 
-        if ($request->get('Name') and $request->get('Area')) {
+        if ($request->get('Name') and $request->get('Area')) {  //Wenn Name und Textfeld etwas enthalten lies es in die Datenbank
             $dbConnection->insert(
                 'blog_post',
-                array('title'=>$request->get('Name'),
+                array('title'=>htmlspecialchars($request->get('Name')),
                     'author'=>$app['session']->get('user'),
-                    'text' => $request->get('Area'),
+                    'text' =>htmlspecialchars($request->get('Area')),
                     'created_at' => date("c")
 
         )
             );
-        } else {
+        } else {              //Ansonsten gib eine Fehlermeldung aus
             return $template->render(
                 'new.html.php',
                 array('active' => 'new', 'cont' => "Du hast ein Feld freigelassen",  'in' => $app['session']->get('user'))
             );
         }
 
-        return $template->render(
+        return $template->render( //wurde etwas in der DB gespeichert gib eine Erfolgsmeldung aus
             'new_done.html.php',
             array('active' => 'new_done', 'cont' => "Dein Blogeintrag wurde gespeichert!", 'titel' => "Dein eingegebener Text:", 'in' => $app['session']->get('user'))
         );
     }
-    if(!$request->isMethod('GET'))
+    if(!$request->isMethod('GET')) //Wenn eine ganz andere Methode genutzt wird brich ab
     {
         $app->abort(405);
     }
     else{
-    return $template->render(
+    return $template->render(   //Ansonsten gib das Eingabeformular aus
         'new.html.php',
         array('active' => 'new', 'cont' => false , 'in' => $app['session']->get('user'))
     );}
-});
+}); // Der Controller der Post Funktion des Blogs
