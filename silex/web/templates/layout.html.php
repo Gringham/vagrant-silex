@@ -1,12 +1,8 @@
-
+<!DOCTYPE html>
 <html>
     <head>
         <title><?php $view['slots']->output('title', 'Default title') ?></title>
-
-        <!-- Das neueste kompilierte und minimierte CSS -->
         <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
-
-        <!-- Das neueste kompilierte und minimierte JavaScript -->
         <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
     </head>
 
@@ -25,7 +21,11 @@
                         <?php if(!$in) :?>
                             <li><a href="/sign">Anmelden</a></li>
                         <?php else: ?>
-                            <li><a href="/sign_out">Abmelden</a></li>
+                            <li><a href="/sign_out">Abmelden von <?=$in?></a></li>
+                        <?php endif; ?>
+
+                        <?php if($in == 'admin') :?>
+                            <li><a href="/members">Mitgliederliste</a></li>
                         <?php endif; ?>
                     </ul>
                 </div>
