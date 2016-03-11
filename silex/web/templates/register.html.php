@@ -38,8 +38,6 @@ $view['slots']->set('title', "Bitte melde dich an:");
     <div class="row">
         <div class="col-xs-offset-3 col-xs-3">
             <input type="submit" value="Ok"/>
-                                     <!--Die alte Form muss hier beendet werden, da der Registrierungsbutton sonst keine andere Aufgabe übernehnem kann-->
-
         </div>
     </div>
 </form>
