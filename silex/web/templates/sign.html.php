@@ -6,10 +6,7 @@ $view['slots']->set('title', "Bitte melde dich an:");
     <form action="/sign" method="post">
 
         <div class="row">
-            <div class="col-xs-3">
-                <label>User:</label>
-            </div>
-            <div class="col-md-3">
+            <div class="col-xs-5 col-sm-3">
                 <label>Username:</label>
             </div>
 
@@ -19,10 +16,7 @@ $view['slots']->set('title', "Bitte melde dich an:");
         </div>
 
         <div class="row">
-            <div class="col-xs-3">
-                <label>Pass:</label>
-            </div>
-            <div class="col-md-3">
+            <div class="col-xs-5 col-sm-3">
                 <label>Passwort:</label>
             </div>
 
@@ -34,7 +28,7 @@ $view['slots']->set('title', "Bitte melde dich an:");
         </div>
 
         <div class="row">
-            <div class="col-xs-offset-3 col-xs-1">
+            <div class="col-xs-offset-5 col-xs-1 col-sm-offset-3 col-sm-1 ">
                 <input type="submit" value="Login          "/>
             </div>
         </div>
@@ -42,7 +36,7 @@ $view['slots']->set('title', "Bitte melde dich an:");
     <!--Die alte Form muss hier beendet werden, da der Registrierungsbutton sonst keine andere Aufgabe übernehnem kann-->
 
     <div class="row">
-        <div class="col-xs-offset-3 col-xs-1">
+        <div class="col-xs-offset-5 col-xs-1 col-sm-offset-3 col-sm-1">
             <form action="/register/start">
                 <input type="submit" value="Registrieren">
             </form>
