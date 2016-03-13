@@ -3,7 +3,10 @@
     <head>
         <title><?php $view['slots']->output('title', 'Default title') ?></title>
         <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
-        <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/vendor/jquery/dist/jquery.min.js"></script>    <!-- wird für die Navbar verwendet, JQuery muss vor Javascript eingebunden werden-->
+        <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+
     </head>
 
 
@@ -11,10 +14,15 @@
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> <!-- mit # wird das Element weiter unten angesprochen, das weiter untern myNavbar heißt-->
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                     <a class="navbar-brand" href="/home">Meine Website</a>
                 </div>
 
-                <div>
+                <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
                         <li><a href="/blog">Blog</a></li>
                         <li><a href="/new">Neuer Beitrag</a></li>
@@ -43,7 +51,7 @@
             </div>
 
             <div class="row">
-                <div class = "col-xs-offset-2 col-xs-9">
+                <div class = "col-xs-offset-1 col-xs-10">
                     <?php $view['slots']->output('_content', 'My content') ?>
                 </div>
             </div>

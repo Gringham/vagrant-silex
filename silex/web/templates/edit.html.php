@@ -1,17 +1,17 @@
 <?php $view->extend('layout.html.php');
 
-$view['slots']->set('title', "Neuen Blogeintrag erstellen");
+$view['slots']->set('title', "Bitte den Beitrag bearbeiten: ");
 ?>
 
-<form action="/new" method="post" class="jumbotron">
-
+<?php $insert = "/blog/edit/{$site}"; ?>
+<form action=<?= $insert ?> method="post" class="jumbotron">
     <div class="row">
         <div class="col-xs-2">
             <label>Überschrift:</label>
         </div>
 
         <div class="col-xs-5">
-            <input type="text" class="form-control" name="Name" required="required">
+            <input type="text" class="form-control" name="Name" required="required" value=<?=$cont[0]['title']?>>
         </div>
     </div>
 
@@ -43,6 +43,3 @@ $view['slots']->set('title', "Neuen Blogeintrag erstellen");
     <?php endif; ?>
 
 </form>
-
-
-

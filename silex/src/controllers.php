@@ -31,7 +31,6 @@ $app->get('/members', function () use ($template, $app, $dbConnection){
         $app->redirect('\sign');
     }
 });
-
 $app->post('member/delete/{usr}', function ($usr) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
     if($app['session']->get('user') == 'admin' and $usr != 'admin') {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
         $dbConnection->delete('usrpwd', array('username' => $usr));                       //Dann lösche den Blogpost an der übergebenen Stelle
@@ -50,58 +49,20 @@ $app->post('member/delete/{usr}', function ($usr) use ($template, $app, $dbConne
 
 }); //Einige Browser sind nicht direkt kompatibel mit delete Typ Formularen, deshalb wurde hier eine post Methode genutzt
 
- $app->get('/sign', function () use ($template, $app){
+$app->get('/register/start', function () use ($template, $app){   //Die beiden Routen sind nur zur Vorsicht, dass der Button nicht die Daten des normalen Login übermittelt
+    return $app->redirect('/register');
+});
+$app->post('/register/start', function () use ($template, $app){
+    return $app->redirect('/register');
+});
+
+
+$app->get('/sign', function () use ($template, $app){
     return $template->render(
         'sign.html.php',
         array('active' => 'sign' , 'in' => $app['session']->get('user'))
     );
 });
-
-$app->get('/register', function () use ($template, $app){
-    return $template->render(
-      'register.html.php',
-        array('active' => 'register', 'in' => Null)
-    );
-});
-
-$app->get('/sign_out', function () use ($template, $app){
-    $app['session']->clear();
-
-    return $template->render(                                   //Dann wird die Erfolgsmeldung angezeigt
-        'new_done.html.php',
-        array('active' => 'new_done', 'cont' => "Du wurdest ausgeloggt", 'titel' => "Glückwunsch" , 'in' => NULL)  // Da hier kein User mehr eingeloggt ist wird dieser Wert zurück gesetzt.
-    );
-
-});
-
-$app->get('/register/start', function () use ($template, $app){   //Die beiden Routen sind nur zur Vorsicht, dass der Button nicht die Daten des normalen Login übermittelt
-    return $app->redirect('/register');
-});
-
-$app->post('/register/start', function () use ($template, $app){
-    return $app->redirect('/register');
-});
-
-$app->post('blog/delete/{page}', function ($page) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
-        $author = $dbConnection->fetchAll("SELECT author FROM blog_post WHERE id=$page");
-        if($app['session']->get('user') == $author[0]['author']) {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
-            $dbConnection->delete('blog_post', array('id' => $page));                       //Dann lösche den Blogpost an der übergebenen Stelle
-            return $template->render(
-                'new_done.html.php',
-                array('active' => 'new_done', 'cont' => "Der Beitrag wurde erfolgreich gelöscht", 'titel' => "Glückwunsch:", 'in' => $app['session']->get('user'))
-            );
-        }
-        else{
-            return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
-                'new_done.html.php',
-                array('active' => 'new_done', 'cont' => "Du besitzt nicht die Rechte den Beitrag zu löschen", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
-            );
-        }
-
-
-}); //Einige Browser sind nicht direkt kompatibel mit delete Typ Formularen, deshalb wurde hier eine post Methode genutzt
-
-
 $app->post('/sign', function (Request $request) use ($template, $app, $dbConnection){
     $usr = $request->get('Sign');           //Hier wird der eingegebene Name abgefragt
     $pas = $request->get('Passwort');       //Hier wird das eingegebene Passwort abgefragt
@@ -145,7 +106,22 @@ $app->post('/sign', function (Request $request) use ($template, $app, $dbConnect
     );
 
 });  //Der Controller der Login Seite
+$app->get('/sign_out', function () use ($template, $app){
+    $app['session']->clear();
 
+    return $template->render(                                   //Dann wird die Erfolgsmeldung angezeigt
+        'new_done.html.php',
+        array('active' => 'new_done', 'cont' => "Du wurdest ausgeloggt", 'titel' => "Glückwunsch" , 'in' => NULL)  // Da hier kein User mehr eingeloggt ist wird dieser Wert zurück gesetzt.
+    );
+
+});
+
+$app->get('/register', function () use ($template, $app){
+    return $template->render(
+        'register.html.php',
+        array('active' => 'register', 'in' => Null)
+    );
+});
 $app->post('/register', function (Request $request) use ($template, $app, $dbConnection) {
     $usr = $request->get('Sign');           //Hier wird der eingegebene Name abgefragt
     $pas = $request->get('Passwort');       //Hier wird das eingegebene Passwort abgefragt
@@ -195,9 +171,6 @@ $app->get('/blog', function () use ($template, $dbConnection, $app) {
         array('active' => 'blog', 'cont'=>$inhalt , 'in' => $app['session']->get('user'), 'full' => Null)
     );
 });
-
-
-
 $app->get('/blog/{page}', function ($page) use ($template, $dbConnection, $app) {    //merke dir bind
     $inhalt = $dbConnection->fetchAll("SELECT * from blog_post WHERE id=$page");
     if($inhalt){
@@ -211,6 +184,64 @@ $app->get('/blog/{page}', function ($page) use ($template, $dbConnection, $app) 
             array('active' => 'new_done', 'cont' => "Es wurde leider kein Beitrag gefunden", 'titel' => "Warnung", 'in' => $app['session']->get('user'))
         );}
 });
+
+$app->get('/blog/edit/{page}', function($page) use ($template, $dbConnection, $app)
+{
+    $inhalt = $dbConnection->fetchAll("SELECT * from blog_post WHERE id=$page");
+    return $template->render(
+        'edit.html.php',
+        array('active' => 'new', 'cont' => $inhalt ,'site' =>$page, 'in' => $app['session']->get('user')));
+
+
+});
+$app->post('/blog/edit/{page}', function($page, Request $request) use ($template, $dbConnection, $app)
+{
+    $author = $dbConnection->fetchAll("SELECT author FROM blog_post WHERE id=$page");
+    if($app['session']->get('user') == $author[0]['author'] or $app['session']->get('user') == 'admin') {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
+        $dbConnection->delete('blog_post', array('id' => $page));   //löscht den alten Beitrag
+        $dbConnection->insert(                                     //Speichert den neuen Beitrag
+            'blog_post',
+            array('title'=>htmlspecialchars($request->get('Name')),
+                'author'=>$app['session']->get('user'),
+                'text' =>htmlspecialchars($request->get('Area')),
+                'created_at' => date("c")
+
+            )
+        );
+        return $template->render(
+            'new_done.html.php',
+            array('active' => 'new_done', 'cont' => "Der Beitrag wurde erfolgreich bearbeitet", 'titel' => "Glückwunsch", 'in' => $app['session']->get('user'))
+        );
+    }
+    else{
+        return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
+            'new_done.html.php',
+            array('active' => 'new_done', 'cont' => "Du besitzt nicht die Rechte den Beitrag zu bearbeiten", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
+        );
+    }
+
+
+
+});
+$app->post('blog/delete/{page}', function ($page) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
+    $author = $dbConnection->fetchAll("SELECT author FROM blog_post WHERE id=$page");
+    if($app['session']->get('user') == $author[0]['author'] or $app['session']->get('user') == 'admin') {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
+        $dbConnection->delete('blog_post', array('id' => $page));                       //Dann lösche den Blogpost an der übergebenen Stelle
+        return $template->render(
+            'new_done.html.php',
+            array('active' => 'new_done', 'cont' => "Der Beitrag wurde erfolgreich gelöscht", 'titel' => "Glückwunsch:", 'in' => $app['session']->get('user'))
+        );
+    }
+    else{
+        return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
+            'new_done.html.php',
+            array('active' => 'new_done', 'cont' => "Du besitzt nicht die Rechte den Beitrag zu löschen", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
+        );
+    }
+
+
+}); //Einige Browser sind nicht direkt kompatibel mit delete Typ Formularen, deshalb wurde hier eine post Methode genutzt
+
 
 $app->match('/new', function (Request $request) use ($template, $dbConnection,$app) { //Diese Methode entstand im Unterricht um match zu testen, ich persönlich hätte sie lieber in get und post geteilt
     if (null === $user = $app['session']->get('user')) return $app->redirect('/sign');
@@ -249,3 +280,6 @@ $app->match('/new', function (Request $request) use ($template, $dbConnection,$a
         array('active' => 'new', 'cont' => false , 'in' => $app['session']->get('user'))
     );}
 }); // Der Controller der Post Funktion des Blogs
+
+
+
