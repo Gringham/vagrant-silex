@@ -13,7 +13,7 @@ $dbConnection = $app['db'];
 $template = $app['templating'];
 
 $app->get('/home', function () use ($template,$app) {
-    return $template->render(
+    return $template->render( //Gibt beim aufruf von /home die home.hmtl Seite wieder
         'home.html.php',
         array('active' => 'home', 'in' => $app['session']->get('user'))
     );
@@ -21,16 +21,16 @@ $app->get('/home', function () use ($template,$app) {
 
 $app->get('/members', function () use ($template, $app, $dbConnection){
     if($app['session']->get('user') == 'admin') {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
-        $inhalt = $dbConnection->fetchAll("SELECT * from usrpwd");
+        $inhalt = $dbConnection->fetchAll("SELECT username from usrpwd");        //speichert alle Nutzer in Inhalt und übergibt sie an $inhalt
         return $template->render(
             'members.html.php',
             array('active' => 'members', 'cont' => $inhalt, 'in' => $app['session']->get('user'))
         );
     }
-    else{
+    else{   //Hat der Nutzer nicht die berechtigungen wird er zur Anmeldung weitergeleitet
         $app->redirect('\sign');
     }
-});
+});//Gibt eine Liste alle rMitglieder aus, member/Delete/usr kann diese dann löschen
 $app->post('/member/delete/{usr}', function ($usr) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
     if($app['session']->get('user') == 'admin' and $usr != 'admin') {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
         $dbConnection->delete('usrpwd', array('username' => $usr));                       //Dann lösche den Blogpost an der übergebenen Stelle
@@ -49,9 +49,9 @@ $app->post('/member/delete/{usr}', function ($usr) use ($template, $app, $dbConn
 
 }); //Einige Browser sind nicht direkt kompatibel mit delete Typ Formularen, deshalb wurde hier eine post Methode genutzt
 
-$app->get('/register/start', function () use ($template, $app){   //Die beiden Routen sind nur zur Vorsicht, dass der Button nicht die Daten des normalen Login übermittelt
+$app->get('/register/start', function () use ($template, $app){
     return $app->redirect('/register');
-});
+});//Die beiden Routen sind nur zur Vorsicht, dass der Button nicht die Daten des normalen Login übermittelt
 $app->post('/register/start', function () use ($template, $app){
     return $app->redirect('/register');
 });
@@ -62,7 +62,7 @@ $app->get('/sign', function () use ($template, $app){
         'sign.html.php',
         array('active' => 'sign' , 'in' => $app['session']->get('user'))
     );
-});
+});   //Der Controller der Login Seite
 $app->post('/sign', function (Request $request) use ($template, $app, $dbConnection){
     $usr = $request->get('Sign');           //Hier wird der eingegebene Name abgefragt
     $pas = $request->get('Passwort');       //Hier wird das eingegebene Passwort abgefragt
@@ -96,7 +96,7 @@ $app->post('/sign', function (Request $request) use ($template, $app, $dbConnect
          );
         }
 
-    if ($app['session']->get('user') === 'admin'){
+    if ($app['session']->get('user') === 'admin'){  //Ist der User der Admin wird eine spezielle Admin Variable gesetzt
         $app['session']->set('admin',true);
     }
 
@@ -105,7 +105,7 @@ $app->post('/sign', function (Request $request) use ($template, $app, $dbConnect
         array('active' => 'new_done', 'cont' => "Du wurdest eingeloggt als $usr", 'titel' => "Glückwunsch" , 'in' => $app['session']->get('user'))
     );
 
-});  //Der Controller der Login Seite
+});  //Handelt die Einlogganfrage
 $app->get('/sign_out', function () use ($template, $app){
     $app['session']->clear();
 
@@ -114,14 +114,14 @@ $app->get('/sign_out', function () use ($template, $app){
         array('active' => 'new_done', 'cont' => "Du wurdest ausgeloggt", 'titel' => "Glückwunsch" , 'in' => NULL)  // Da hier kein User mehr eingeloggt ist wird dieser Wert zurück gesetzt.
     );
 
-});
+}); //Löscht alle Sessionvariablen / Loggt aus
 
 $app->get('/register', function () use ($template, $app){
     return $template->render(
         'register.html.php',
         array('active' => 'register', 'in' => Null)
     );
-});
+}); //Gibt die Registrierungsseite wieder
 $app->post('/register', function (Request $request) use ($template, $app, $dbConnection) {
     $usr = $request->get('Sign');           //Hier wird der eingegebene Name abgefragt
     $pas = $request->get('Passwort');       //Hier wird das eingegebene Passwort abgefragt
@@ -143,7 +143,7 @@ $app->post('/register', function (Request $request) use ($template, $app, $dbCon
         );
     }
     if ($pas != $request->get('Passwort2')) {
-        return $template->render(                                 //Ist das Passwort falsch wi rd eine Fehlermeldung angegeben
+        return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
             'new_done.html.php',
             array('active' => 'new_done', 'cont' => "Das Passwort unterscheidet sich!", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
         );
@@ -165,51 +165,51 @@ $app->post('/register', function (Request $request) use ($template, $app, $dbCon
 }); //Der Controller der Registrierungsseite
 
 $app->get('/blog', function () use ($template, $dbConnection, $app) {
-    $inhalt = $dbConnection->fetchAll("SELECT * from blog_post");
+    $inhalt = $dbConnection->fetchAll("SELECT * FROM blog_post ORDER BY id DESC"); //Ordnet die  Blogeinträge mit dem neusten zuerst und speichert sie in Inhalt
     return $template->render(
         'blog.html.php',
         array('active' => 'blog', 'cont'=>$inhalt , 'in' => $app['session']->get('user'), 'full' => Null)
     );
-});
+});  //Gibt den Blog normal wieder
 $app->get('/blog/{page}', function ($page) use ($template, $dbConnection, $app) {    //merke dir bind
     $inhalt = $dbConnection->fetchAll("SELECT * from blog_post WHERE id=$page");
-    if($inhalt){
+    if($inhalt){      //Wenn ein Blogeintrag mit der gewünschten ID vorhanden ist gib ihn wieder
         return $template->render(
             'blog.html.php',
             array('active' => 'blog', 'cont'=>$inhalt , 'in' => $app['session']->get('user'), 'full' => true)
     );}
     else{
-        return $template->render(                                   //Dann wird die Erfolgsmeldung angezeigt
+        return $template->render(                                   //Ansonsten gib eine Fehlermeldung aus
             'new_done.html.php',
             array('active' => 'new_done', 'cont' => "Es wurde leider kein Beitrag gefunden", 'titel' => "Warnung", 'in' => $app['session']->get('user'))
         );}
-});
+}); //Gibt einen Blogeintrag genauer wieder
 $app->get('/blog/prev/{page}',function ($page) use ($template, $dbConnection, $app){
     $inhalt =$dbConnection->fetchAll("select id from blog_post where id = (select max(id) from blog_post where id < $page)");  //Sucht die größte Id, die kleiner als die letzte ist
     if($inhalt) {
-        return $app->redirect("/blog/{$inhalt[0]['id']}");
+        return $app->redirect("/blog/{$inhalt[0]['id']}"); //Ist keine vorherige Seite vorhanden bleibe auf der momentanen
     }
     else{
         return $app->redirect("/blog/{$page}");
     }
-});
+}); //Wechselt zum letzten Blogeintrag
 $app->get('/blog/next/{page}',function ($page) use ($template, $dbConnection, $app){
     $inhalt =$dbConnection->fetchAll("select id from blog_post where id = (select min(id) from blog_post where id > $page)");
     if($inhalt) {
-        return $app->redirect("/blog/{$inhalt[0]['id']}");
+        return $app->redirect("/blog/{$inhalt[0]['id']}"); //Ist keine nächste Seite vorhanden bleibe auf der momentanen
     }
     else{
         return $app->redirect("/blog/{$page}");
     }
 
-});
+}); //Wecheslt zum nächsten Blogeintrag
 
 $app->get('/impressum', function () use ($template, $dbConnection, $app){
     return $template->render(
         'impressum.html.php',
         array('active' => 'impressum' , 'in' => $app['session']->get('user'))
     );
-});
+}); //Gib das statische Impressum wieder
 
 $app->get('/blog/edit/{page}', function($page) use ($template, $dbConnection, $app)
 {
@@ -219,7 +219,7 @@ $app->get('/blog/edit/{page}', function($page) use ($template, $dbConnection, $a
         array('active' => 'new', 'cont' => $inhalt ,'site' =>$page, 'in' => $app['session']->get('user')));
 
 
-});
+}); //Öffnet das Editierungstemplate
 $app->post('/blog/edit/{page}', function($page, Request $request) use ($template, $dbConnection, $app)
 {
     $author = $dbConnection->fetchAll("SELECT author FROM blog_post WHERE id=$page");
@@ -269,19 +269,16 @@ $app->post('/blog/delete/{page}', function ($page) use ($template, $app, $dbConn
 }); //Einige Browser sind nicht direkt kompatibel mit delete Typ Formularen, deshalb wurde hier eine post Methode genutzt
 
 
-$app->match('/new', function (Request $request) use ($template, $dbConnection,$app) { //Diese Methode entstand im Unterricht um match zu testen, ich persönlich hätte sie lieber in get und post geteilt
-    if (null === $user = $app['session']->get('user')) return $app->redirect('/sign');
+$app->match('/new', function (Request $request) use ($template, $dbConnection,$app) { //Diese Methode entstand im Unterricht um match zu testen
+    if (null === $user = $app['session']->get('user')) return $app->redirect('/sign');//Ist kein Nutzer registriert wird er zur Anmeldung zurückgeleitet
 
     if ($request->isMethod('POST')) {  //Im Falle eine Post Methode
-
         if ($request->get('Name') and $request->get('Area')) {  //Wenn Name und Textfeld etwas enthalten lies es in die Datenbank
             $dbConnection->insert(
                 'blog_post',
                 array('title'=>htmlspecialchars($request->get('Name')),
                     'author'=>$app['session']->get('user'),
-                    'text' =>htmlspecialchars($request->get('Area')),
-                    'created_at' => date("c")
-
+                    'text' =>htmlspecialchars($request->get('Area'))
         )
             );
         } else {              //Ansonsten gib eine Fehlermeldung aus

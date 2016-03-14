@@ -1,4 +1,11 @@
 <!-- <//?=?> wird hier nur für einzelne Variablen verwendet, ansonsten die normalen Php Tags-->
+<?php
+/**
+ * @var $cont
+ * @var $view
+ * @var $in
+ */
+?>
 
 <?php $view->extend('layout.html.php') ?>
 
@@ -9,15 +16,16 @@
     <div class='jumbotron'>
         <div class='row'>
             <div class='col-xs-12'>
-                <?= $row['username'] ?>
+                <?= $row['username'] ?><!-- Hiermit wird jeweils der Username ausgelesen-->
             </div>
         </div>
+
         <div class='row'>
             <div class='col-xs-1'>
                 <?php if ($in == 'admin' and $row['username'] != 'admin'): ?>
                     <!-- Ist der User wirklich der Admin, dann zeige den löschen Knopf an-->
                     <br/><br/>
-                    <?php $inhalt = "/member/delete/'". $row['username'] ."'" ?>
+                    <?php $inhalt = "/member/delete/'" . $row['username'] . "'" ?>
                     <!-- Hier wird der Username in den String gebastelt-->
                     <form action=<?= $inhalt ?> , method='post'>
                         <!-- Hier wird einfach nur ein submitbutton erzeugt-->

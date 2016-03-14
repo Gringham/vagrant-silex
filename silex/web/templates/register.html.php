@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var $cont
+ * @var $view
+ */
+?>
+
 <?php $view->extend('layout.html.php');
 
 $view['slots']->set('title', "Bitte melde dich an:");
@@ -6,7 +13,7 @@ $view['slots']->set('title', "Bitte melde dich an:");
 <form action="/register" method="post" class="jumbotron">
     <div class="row">
         <div class="" col-xs-12>
-            <p>Hier kannst du einen neuen User anlegen. Dabei ist zu beachten, dass der Name keine leerzeichen enthalten
+            <p>Hier kannst du einen neuen User anlegen. Dabei ist zu beachten, dass der Name keine Leerzeichen enthalten
                 darf!</p>
         </div>
     </div>
@@ -19,7 +26,8 @@ $view['slots']->set('title', "Bitte melde dich an:");
             <input type="text" class="form-control" name="Sign" required="required" pattern="^\S*$"/>
             <!-- Darf keine Leerzeichen enthalten. Aus diesem Grund das Pattern. Es ist nicht schlimm,
              wenn jemand dies über eine eigenständige Post Methode trotzdem erreicht.
-              Nur kann der Admin diese Person dann nicht löschen, sondern sie muss aus der Datenbank direkt entfernt werden.-->
+              Nur kann der Admin diese Person dann nicht ohne weiteres löschen, sondern sie muss aus
+              der Datenbank direkt entfernt werden.-->
         </div>
     </div>
 
