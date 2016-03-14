@@ -17,7 +17,7 @@
                 <?php if ($in == 'admin' and $row['username'] != 'admin'): ?>
                     <!-- Ist der User wirklich der Admin, dann zeige den löschen Knopf an-->
                     <br/><br/>
-                    <?php $inhalt = "/member/delete/{$row['username']}" ?>
+                    <?php $inhalt = "/member/delete/'". $row['username'] ."'" ?>
                     <!-- Hier wird der Username in den String gebastelt-->
                     <form action=<?= $inhalt ?> , method='post'>
                         <!-- Hier wird einfach nur ein submitbutton erzeugt-->

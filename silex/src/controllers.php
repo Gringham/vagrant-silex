@@ -24,14 +24,14 @@ $app->get('/members', function () use ($template, $app, $dbConnection){
         $inhalt = $dbConnection->fetchAll("SELECT * from usrpwd");
         return $template->render(
             'members.html.php',
-            array('active' => 'new_done', 'cont' => $inhalt, 'in' => $app['session']->get('user'))
+            array('active' => 'members', 'cont' => $inhalt, 'in' => $app['session']->get('user'))
         );
     }
     else{
         $app->redirect('\sign');
     }
 });
-$app->post('member/delete/{usr}', function ($usr) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
+$app->post('/member/delete/{usr}', function ($usr) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
     if($app['session']->get('user') == 'admin' and $usr != 'admin') {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
         $dbConnection->delete('usrpwd', array('username' => $usr));                       //Dann lösche den Blogpost an der übergebenen Stelle
         return $template->render(
@@ -223,7 +223,7 @@ $app->post('/blog/edit/{page}', function($page, Request $request) use ($template
 
 
 });
-$app->post('blog/delete/{page}', function ($page) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
+$app->post('/blog/delete/{page}', function ($page) use ($template, $app, $dbConnection){  //Methode zum löschen von Beiträgen
     $author = $dbConnection->fetchAll("SELECT author FROM blog_post WHERE id=$page");
     if($app['session']->get('user') == $author[0]['author'] or $app['session']->get('user') == 'admin') {                           //Ist der Nutzer der angemeldet ist wirklich der Nutzer, der den Beitrag verfasst hat ?
         $dbConnection->delete('blog_post', array('id' => $page));                       //Dann lösche den Blogpost an der übergebenen Stelle
@@ -267,7 +267,7 @@ $app->match('/new', function (Request $request) use ($template, $dbConnection,$a
 
         return $template->render( //wurde etwas in der DB gespeichert gib eine Erfolgsmeldung aus
             'new_done.html.php',
-            array('active' => 'new_done', 'cont' => "Dein Blogeintrag wurde gespeichert!", 'titel' => "Dein eingegebener Text:", 'in' => $app['session']->get('user'))
+            array('active' => 'new_done', 'cont' => "Dein Blogeintrag wurde gespeichert!", 'titel' => "Glückwunsch:", 'in' => $app['session']->get('user'))
         );
     }
     if(!$request->isMethod('GET')) //Wenn eine ganz andere Methode genutzt wird brich ab

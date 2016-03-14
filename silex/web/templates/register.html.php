@@ -4,14 +4,20 @@ $view['slots']->set('title', "Bitte melde dich an:");
 ?>
 
 <form action="/register" method="post" class="jumbotron">
-
+    <div class="row">
+        <div class="" col-xs-12>
+            <p>Hier kannst du einen neuen User anlegen. Dabei ist zu beachten, dass der Name keine leerzeichen enthalten
+                darf!</p>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-3">
             <label>Username:</label>
         </div>
 
         <div class="col-xs-5">
-            <input type="text" class="form-control" name="Sign" required="required"/>
+            <input type="text" class="form-control" name="Sign" required="required" pattern="^\S*$"/>
+            <!-- Darf keine Leerzeichen enthalten. Aus diesem Grund das Pattern-->
         </div>
     </div>
 
@@ -21,7 +27,7 @@ $view['slots']->set('title', "Bitte melde dich an:");
         </div>
 
         <div class="col-xs-5">
-            <input type="password" class="form-control" name="Passwort" required="required"/>
+            <input type="password" class="form-control" name="Passwort" required="required" pattern="^\S*$"/>
         </div>
     </div>
 
@@ -31,7 +37,7 @@ $view['slots']->set('title', "Bitte melde dich an:");
         </div>
 
         <div class="col-xs-5">
-            <input type="password" class="form-control" name="Passwort2" required="required"/>
+            <input type="password" class="form-control" name="Passwort2" required="required" pattern="^\S*$"/>
         </div>
     </div>
 

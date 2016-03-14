@@ -1,4 +1,10 @@
 <?php $view->extend('layout.html.php') ?>
+<?php /**
+ * @var $cont
+ * @var $full
+ * @var $in
+ */
+?>
 
 <?php $view['slots']->set('title', "Mein Blog") ?>
 <?php if (!$full): ?> <!--Wenn alle Beiträge ausgegeben werden sollen-->
@@ -57,26 +63,27 @@
     <?php foreach ($cont as $row) : ?>   <!--Die for each Schleife eliminiert hier einen zwei Parametrigen Aufruf von $cont-->
         <div class='row jumbotron'>
 
-        <div class="row ">
-            <div class="col-xs-12">
-                <h4>
-                    Beitrag: <?= $row['title'] ?>
-                </h4>
+            <div class="row ">
+                <div class="col-xs-12">
+                    <h4>
+                        Beitrag: <?= $row['title'] ?>
+                    </h4>
+                </div>
             </div>
-        </div>
-        <!--Ausgabe einer Zeile der Datenbank-->
-        <br/>
-        <div class="row alert alert-success">
-            <div class="col-xs-12">
-                <?= nl2br($row['text']) ?>  <!--Automatischer ZEilenumbruch, wenn bei der Eingabe Return betätigt wurde-->
+            <!--Ausgabe einer Zeile der Datenbank-->
+            <br/>
+            <div class="row alert alert-success">
+                <div class="col-xs-12">
+                    <?= nl2br($row['text']) ?>
+                    <!--Automatischer ZEilenumbruch, wenn bei der Eingabe Return betätigt wurde-->
+                </div>
             </div>
-        </div>
-        <!--Der weiterlesen- Link wird für alle Seiten implementiert-->
-        <div class="row">
-            <div class="col-xs-12 alert alert-info">
-                Am <?= $row['created_at'] ?> erstellt von <?= $row['author'] ?>
+            <!--Der weiterlesen- Link wird für alle Seiten implementiert-->
+            <div class="row">
+                <div class="col-xs-12 alert alert-info">
+                    Am <?= $row['created_at'] ?> erstellt von <?= $row['author'] ?>
+                </div>
             </div>
-        </div>
 
 
             <?php if ($in == $row['author'] or $in == 'admin'): ?>

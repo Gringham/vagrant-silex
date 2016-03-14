@@ -1,4 +1,11 @@
+<?php /**
+ * @var $site
+ * @var $cont
+ * @var $in
+ */
+?>
 <?php $view->extend('layout.html.php');
+
 
 $view['slots']->set('title', "Bitte den Beitrag bearbeiten: ");
 ?>
@@ -11,7 +18,7 @@ $view['slots']->set('title', "Bitte den Beitrag bearbeiten: ");
         </div>
 
         <div class="col-xs-5">
-            <input type="text" class="form-control" name="Name" required="required" value=<?=$cont[0]['title']?>>
+            <input type="text" class="form-control" name="Name" required="required" value=<?= $cont[0]['title'] ?>>
         </div>
     </div>
 
@@ -21,7 +28,7 @@ $view['slots']->set('title', "Bitte den Beitrag bearbeiten: ");
         </div>
 
         <div class="col-xs-5">
-            <textarea class="form-control" name="Area" required="required"><?=$cont[0]['text']?></textarea>
+            <textarea class="form-control" name="Area" required="required"><?= $cont[0]['text'] ?></textarea>
         </div>
 
 
