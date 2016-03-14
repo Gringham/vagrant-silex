@@ -4,7 +4,7 @@
     <title><?php $view['slots']->output('title', 'Default title') ?></title>
     <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
-    <!-- wird für die Navbar verwendet, JQuery muss vor Javascript eingebunden werden-->
+    <!-- wird für die Navbar verwendet, JQuery muss vor Javascript eingebunden werden, da es sonst scheinbar nicht mitgeladen wird-->
     <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 
 
@@ -26,7 +26,7 @@
 
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="/blog">Blog</a></li>
+                <li><a href="/blog" class="active">Blog</a></li>
                 <li><a href="/new">Neuer Beitrag</a></li>
                 <?php if (!$in) : ?>                             <!-- Abfrage ob ein User eingeloggt ist oder nicht-->
                     <li><a href="/sign">Anmelden</a></li>
@@ -45,7 +45,7 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-xs-12 col-sm-offset-1 col-sm-10 well well-grey">
+        <div class="col-xs-12 col-sm-offset-1 col-sm-10 well well-grey"> <!-- well erzeugt den grauen Rahmen der Überschrift-->
             <h1>
                 <?php $view['slots']->output('title', 'Default title') ?>
             </h1>
@@ -60,7 +60,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <hr/>
+            <hr/>                                     <!-- hr erzeugt eine so genannte Header Row-->
             <footer>by Christoph Leiter 2016</footer>
         </div>
     </div>

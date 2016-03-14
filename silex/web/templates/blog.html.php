@@ -68,7 +68,7 @@
         <br/>
         <div class="row alert alert-success">
             <div class="col-xs-12">
-                <?= $row['text'] ?> <!--Ausgabe der ersten 75 Zeichen des Inhaltes-->
+                <?= nl2br($row['text']) ?>  <!--Automatischer ZEilenumbruch, wenn bei der Eingabe Return betätigt wurde-->
             </div>
         </div>
         <!--Der weiterlesen- Link wird für alle Seiten implementiert-->
