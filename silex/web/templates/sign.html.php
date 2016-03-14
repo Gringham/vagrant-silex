@@ -34,7 +34,7 @@ $view['slots']->set('title', "Bitte melde dich an:");
 
         <div class="row">
             <div class="col-xs-offset-5 col-xs-1 col-sm-offset-3 col-sm-1 ">
-                <input type="submit" value="Login          "/>
+                <input type="submit" value="Login         "/>
             </div>
         </div>
     </form>
