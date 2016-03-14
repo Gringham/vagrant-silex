@@ -85,6 +85,23 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-xs-1">
+                    <?php $insert = "/blog/prev/{$row['id']}"; ?> <!--Der letzte Beitrag wird ausgewählt-->
+                    <form action=<?= $insert ?> , method='get'>
+                        <input type='submit' value='Vorheriger Beitrag'>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-1">
+                    <?php $input = "/blog/next/{$row['id']}"; ?> <!--Der nächste Beirag wird ausgewählt-->
+                    <form action=<?= $input ?> , method='get'>
+                        <input type='submit' value='Nächster Beitrag   '>
+                    </form>
+                </div>
+            </div>
+
 
             <?php if ($in == $row['author'] or $in == 'admin'): ?>
                 <!--Jeder User kann seine eigenen Beiträge löschen und der Admin alle-->

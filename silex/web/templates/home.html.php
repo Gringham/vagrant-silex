@@ -2,8 +2,8 @@
 
 <?php $view['slots']->set('title', "Willkommen") ?>
 <div class="row">
-    <div class="col-xs-12">
-        <p>Dies ist mein Blog, den ich zu Testzwecken für Webengineering implementiert habe. Er umfasst folgende
+    <div class="col-xs-12 jumbotron">
+        <p>Dies ist mein Blog, den ich für Webengineering implementiert habe. Er umfasst folgende
             Funktionen:</p>
         <ul>
             <li>Eine statische Home Seite</li>

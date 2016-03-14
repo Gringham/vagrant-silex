@@ -17,7 +17,9 @@ $view['slots']->set('title', "Bitte melde dich an:");
 
         <div class="col-xs-5">
             <input type="text" class="form-control" name="Sign" required="required" pattern="^\S*$"/>
-            <!-- Darf keine Leerzeichen enthalten. Aus diesem Grund das Pattern-->
+            <!-- Darf keine Leerzeichen enthalten. Aus diesem Grund das Pattern. Es ist nicht schlimm,
+             wenn jemand dies über eine eigenständige Post Methode trotzdem erreicht.
+              Nur kann der Admin diese Person dann nicht löschen, sondern sie muss aus der Datenbank direkt entfernt werden.-->
         </div>
     </div>
 

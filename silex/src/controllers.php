@@ -184,6 +184,32 @@ $app->get('/blog/{page}', function ($page) use ($template, $dbConnection, $app) 
             array('active' => 'new_done', 'cont' => "Es wurde leider kein Beitrag gefunden", 'titel' => "Warnung", 'in' => $app['session']->get('user'))
         );}
 });
+$app->get('/blog/prev/{page}',function ($page) use ($template, $dbConnection, $app){
+    $inhalt =$dbConnection->fetchAll("select id from blog_post where id = (select max(id) from blog_post where id < $page)");  //Sucht die größte Id, die kleiner als die letzte ist
+    if($inhalt) {
+        return $app->redirect("/blog/{$inhalt[0]['id']}");
+    }
+    else{
+        return $app->redirect("/blog/{$page}");
+    }
+});
+$app->get('/blog/next/{page}',function ($page) use ($template, $dbConnection, $app){
+    $inhalt =$dbConnection->fetchAll("select id from blog_post where id = (select min(id) from blog_post where id > $page)");
+    if($inhalt) {
+        return $app->redirect("/blog/{$inhalt[0]['id']}");
+    }
+    else{
+        return $app->redirect("/blog/{$page}");
+    }
+
+});
+
+$app->get('/impressum', function () use ($template, $dbConnection, $app){
+    return $template->render(
+        'impressum.html.php',
+        array('active' => 'impressum' , 'in' => $app['session']->get('user'))
+    );
+});
 
 $app->get('/blog/edit/{page}', function($page) use ($template, $dbConnection, $app)
 {

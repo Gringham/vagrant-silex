@@ -6,7 +6,7 @@ $view['slots']->set('title', "Neuen Blogeintrag erstellen");
 <form action="/new" method="post" class="jumbotron">
 
     <div class="row">
-        <div class="col-xs-2">
+        <div class="col-xs-5 col-sm-2">
             <label>Überschrift:</label>
         </div>
 
@@ -16,7 +16,7 @@ $view['slots']->set('title', "Neuen Blogeintrag erstellen");
     </div>
 
     <div class="row">
-        <div class="col-xs-2">
+        <div class="col-xs-5 col-sm-2">
             <label>Dein Text:</label>
         </div>
 
@@ -28,7 +28,7 @@ $view['slots']->set('title', "Neuen Blogeintrag erstellen");
     </div>
 
     <div class="row">
-        <div class="col-xs-offset-2 col-xs-2">
+        <div class="col-xs-offset-5 col-xs-2 col-sm-offset-2 col-sm-3">
             <input type="submit" value="Senden"/>
         </div>
     </div>
