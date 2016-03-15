@@ -27,7 +27,7 @@ $app->get('/members', function () use ($template, $app, $dbConnection) {
             array('active' => 'members', 'cont' => $inhalt, 'in' => $app['session']->get('user'))
         );
     } else {   //Hat der Nutzer nicht die berechtigungen wird er zur Anmeldung weitergeleitet
-        $app->redirect('\sign');
+        return $app->redirect('\sign');
     }
 });//Gibt eine Liste alle rMitglieder aus, member/Delete/usr kann diese dann löschen
 $app->post('/member/delete/{usr}', function ($usr) use ($template, $app, $dbConnection) {  //Methode zum löschen von Beiträgen
@@ -142,7 +142,14 @@ $app->post('/register', function (Request $request) use ($template, $app, $dbCon
             'new_done.html.php',
             array('active' => 'new_done', 'cont' => "Das Passwort unterscheidet sich!", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
         );
-    } else {                                                             //ansonsten wird der neue User angelegt und in der Datenbank gespeicher
+    }
+    if (strpos($usr,"String")!==false){
+        return $template->render(                                 //Enthält der Name Leerzeichen
+            'new_done.html.php',
+            array('active' => 'new_done', 'cont' => "Das Passwort unterscheidet sich!", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
+        );
+    }
+    else {                                                             //ansonsten wird der neue User angelegt und in der Datenbank gespeicher
         $app['session']->set('user', $usr);
         $dbConnection->insert(
             'usrpwd',
