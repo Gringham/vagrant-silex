@@ -1,7 +1,7 @@
 <?php
 /**
-* @var $view
-*/?>
+ * @var $view
+ */ ?>
 <?php $view->extend('layout.html.php');
 
 

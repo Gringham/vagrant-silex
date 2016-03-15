@@ -33,7 +33,9 @@
             <!--Der weiterlesen- Link wird für alle Seiten implementiert-->
             <div class="row">
                 <div class="col-xs-12 alert alert-info">
-                    Um <?= date("H:i:s",strtotime($row['created_at'])); ?> Uhr, Am <?= date("d.m.Y",strtotime($row['created_at'])); ?> in Unixzeit, Erstellt von <?= $row['author'] ?>
+                    Um <?= date("H:i:s", strtotime($row['created_at'])); ?> Uhr,
+                    Am <?= date("d.m.Y", strtotime($row['created_at'])); ?> in Unixzeit, Erstellt
+                    von <?= $row['author'] ?>
                 </div>
             </div>
 
@@ -87,7 +89,9 @@
             <!--Der weiterlesen- Link wird für alle Seiten implementiert-->
             <div class="row">
                 <div class="col-xs-12 alert alert-info">
-                    Um <?= date("H:i:s",strtotime($row['created_at'])); ?> Uhr, Am <?= date("d.m.Y",strtotime($row['created_at'])); ?> in Unixzeit, Erstellt von <?= $row['author'] ?>
+                    Um <?= date("H:i:s", strtotime($row['created_at'])); ?> Uhr,
+                    Am <?= date("d.m.Y", strtotime($row['created_at'])); ?> in Unixzeit, Erstellt
+                    von <?= $row['author'] ?>
                 </div>
             </div>
 

@@ -6,5 +6,5 @@ CREATE TABLE blog_post (
   author VARCHAR(255),
   title VARCHAR(255),
   text TEXT,
-  created_at DATE
+  created_at TEXT
 );
