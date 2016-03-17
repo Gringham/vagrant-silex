@@ -122,43 +122,48 @@ $app->post('/register', function (Request $request) use ($template, $app, $dbCon
     $usr = $request->get('Sign');           //Hier wird der eingegebene Name abgefragt
     $pas = $request->get('Passwort');       //Hier wird das eingegebene Passwort abgefragt
     $compusr = "";                          //In diese Variable wird der Nutzername aus der Datenbank geladen
+    $userlist = $dbConnection->fetchAll("SELECT * FROM usrpwd");     //Hier wird die Liste der eingetragenen Nutzer + Passwörter gespeichert
+
+    if ($request->get('Sign') and $request->get('Passwort') and $request->get('Passwort2')) {  //Wenn Name und Textfeld etwas enthalten lies es in die Datenbank
 
 
-    $userlist = $dbConnection->fetchAll("SELECT * FROM usrpwd");     //Hier wird die Liste der eingetragenen Nutzer + Passwörter gespeicher
-
-    foreach ($userlist as $row) {                                      //Hier wird gesucht, ob der eingegebene Nutzer bereits existiert
-        if ($row['username'] === $usr) {
-            $compusr = $usr;
+        foreach ($userlist as $row) {                                      //Hier wird gesucht, ob der eingegebene Nutzer bereits existiert
+            if ($row['username'] === $usr) {
+                $compusr = $usr;
+            }
         }
-    }
-    if ($compusr === $usr) {                                             //Existiert er, wird das Passwort verglichen
-        return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
-            'new_done.html.php',
-            array('active' => 'new_done', 'cont' => "Der Nutzer existiert bereits!", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
-        );
-    }
-    if ($pas != $request->get('Passwort2')) {
-        return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
-            'new_done.html.php',
-            array('active' => 'new_done', 'cont' => "Das Passwort unterscheidet sich!", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
-        );
-    }
-    if (strpos($usr,"String")!==false){
-        return $template->render(                                 //Enthält der Name Leerzeichen
-            'new_done.html.php',
-            array('active' => 'new_done', 'cont' => "Das Passwort unterscheidet sich!", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
-        );
-    }
-    else {                                                             //ansonsten wird der neue User angelegt und in der Datenbank gespeicher
-        $app['session']->set('user', $usr);
-        $dbConnection->insert(
-            'usrpwd',
-            array('username' => htmlspecialchars($usr),  //gegen Codeinjection
-                'password' => htmlspecialchars($pas),
-            ));
+        if ($compusr === $usr) {                                             //Existiert er, wird das Passwort verglichen
+            return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
+                'new_done.html.php',
+                array('active' => 'new_done', 'cont' => "Der Nutzer existiert bereits!", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
+            );
+        }
+        if ($pas != $request->get('Passwort2')) {
+            return $template->render(                                 //Ist das Passwort falsch wird eine Fehlermeldung angegeben
+                'new_done.html.php',
+                array('active' => 'new_done', 'cont' => "Das Passwort unterscheidet sich!", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
+            );
+        }
+        if (strpos($usr, "String") !== false) {
+            return $template->render(                                 //Enthält der Name Leerzeichen
+                'new_done.html.php',
+                array('active' => 'new_done', 'cont' => "Das Passwort unterscheidet sich!", 'titel' => "Warnung:", 'in' => $app['session']->get('user'))
+            );
+        } else {                                                             //ansonsten wird der neue User angelegt und in der Datenbank gespeicher
+            $app['session']->set('user', $usr);
+            $dbConnection->insert(
+                'usrpwd',
+                array('username' => htmlspecialchars($usr),  //gegen Codeinjection
+                    'password' => htmlspecialchars($pas),
+                ));
 
+        }
+    } else {              //Ansonsten gib eine Fehlermeldung aus
+        return $template->render(                                   //Dann wird die Erfolgsmeldung angezeigt
+            'new_done.html.php',
+            array('active' => 'new_done', 'cont' => "Der Zugriff wurde verweigert!", 'titel' => "Warnung", 'in' => $app['session']->get('user'))
+        );
     }
-
 
     return $template->render(                                   //Dann wird die Erfolgsmeldung angezeigt
         'new_done.html.php',
