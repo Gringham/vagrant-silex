@@ -33,20 +33,20 @@ $view['slots']->set('title', "Bitte melde dich an:");
         </div>
 
         <div class="row">
-            <div class="col-xs-offset-5 col-xs-1 col-sm-offset-3 col-sm-1 ">
-                <input type="submit" value="Login         "/>
+            <br/>
+            <div class="col-xs-offset-5 col-sm-offset-3 col-lg-1">
+                <input type="submit" value="Login         " class="btn btn-default"/>
             </div>
-        </div>
+
     </form>
     <!--Die alte Form muss hier beendet werden, da der Registrierungsbutton sonst keine andere Aufgabe übernehnem kann-->
 
-    <div class="row">
-        <div class="col-xs-offset-5 col-xs-1 col-sm-offset-3 col-sm-1">
-            <form action="/register/start">
-                <input type="submit" value="Registrieren">
-            </form>
-        </div>
+    <div class=" col-xs-offset-5 col-sm-offset-3 col-lg-offset-0 col-lg-2">
+        <form action="/register/start">
+            <input type="submit" value="Registrieren " class="btn btn-default">
+        </form>
     </div>
+</div>
 </div>
 
 

@@ -44,22 +44,22 @@
 
             <?php if ($signed == $row['author'] or $signed == 'admin'): ?>
                 <!--Jeder User kann seine eigenen Beiträge löschen und der Admin alle-->
-                <br/>
                 <div class="row">
-                    <div class="col-xs-1">
+                    <br/>
+                    <div class="col-lg-1">
                         <?php $insert = "/blog/edit/{$row['id']}"; ?> <!--Die übergebene ID wird bearbeitet-->
                         <form action=<?= $insert ?> , method='get'>
-                            <input type='submit' value='Bearbeiten'>
+                            <input type='submit' value='Bearbeiten' class="btn btn-default">
                         </form>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-xs-1">
-                        <?php $input = "/blog/delete/{$row['id']}"; ?> <!--Die übergebene ID wird gelöscht-->
-                        <form action=<?= $input ?> , method='post'>
-                            <input type='submit' value='Löschen    '>
-                        </form>
+                    <div class="col-lg-2">
+                        <div class="col-lg-offset-2"> <!--Hierdurch werden die Knöpfe schöner positioniert-->
+                            <?php $input = "/blog/delete/{$row['id']}"; ?> <!--Die übergebene ID wird gelöscht-->
+                            <form action=<?= $input ?> , method='post'>
+                                <input type='submit' value='Löschen' class="btn btn-default">
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -100,50 +100,44 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-1">
+                <br/>
+                <div class="col-lg-1">
                     <?php $insert = "/blog/prev/{$row['id']}"; ?> <!--Der letzte Beitrag wird ausgewählt-->
                     <form action=<?= $insert ?> , method='get'>
-                        <input type='submit' value='Vorheriger Beitrag'>
+                        <input type='submit' value='Vorheriger Beitrag' class="btn btn-default">
                     </form>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-xs-1">
-                    <?php $input = "/blog/next/{$row['id']}"; ?> <!--Der nächste Beirag wird ausgewählt-->
-                    <form action=<?= $input ?> , method='get'>
-                        <input type='submit' value='Nächster Beitrag   '>
-                    </form>
-                </div>
-            </div>
-
-
-            <?php if ($signed == $row['author'] or $signed == 'admin'): ?>
-                <!--Jeder User kann seine eigenen Beiträge löschen und der Admin alle-->
-                <br/>
-
-                <div class="row">
-                    <div class="col-xs-1">
-                        <?php $insert = "/blog/edit/{$row['id']}"; ?>
-                        <!--Die übergebene ID wird bearbeitet/
-                        Dies wird vorher in eine extra Variable gespeichert, um das ganze übersichtlicher zu machen und
-                        nicht zu viele Tags zu schachteln-->
-                        <form action=<?= $insert ?> , method='get'>
-                            <!--Das Formular wird verwendet um eine get Methode
-                        an einen Button zu binden-->
-                            <input type='submit' value='Bearbeiten'>
+                <div class="col-lg-8">
+                    <div class="col-lg-offset-1"> <!--Hierdurch werden die Knöpfe schöner positioniert-->
+                        <?php $input = "/blog/next/{$row['id']}"; ?> <!--Der nächste Beirag wird ausgewählt-->
+                        <form action=<?= $input ?> , method='get'>
+                            <input type='submit' value='Nächster Beitrag' class="btn btn-default">
                         </form>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-xs-1">
+
+                <?php if ($signed == $row['author'] or $signed == 'admin'): ?>
+                <!--Jeder User kann seine eigenen Beiträge löschen und der Admin alle-->
+
+
+                <div class="col-lg-1">
+                    <?php $insert = "/blog/edit/{$row['id']}"; ?> <!--Die übergebene ID wird bearbeitet-->
+                    <form action=<?= $insert ?> , method='get'>
+                        <input type='submit' value='Bearbeiten' class="btn btn-default">
+                    </form>
+                </div>
+
+                <div class="col-lg-2">
+                    <div class="col-lg-offset-2"> <!--Hierdurch werden die Knöpfe schöner positioniert-->
                         <?php $input = "/blog/delete/{$row['id']}"; ?> <!--Die übergebene ID wird gelöscht-->
                         <form action=<?= $input ?> , method='post'>
-                            <input type='submit' value='Löschen    '>
+                            <input type='submit' value='Löschen' class="btn btn-default">
                         </form>
                     </div>
                 </div>
+            </div>
 
             <?php endif; ?>
         </div>

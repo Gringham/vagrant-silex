@@ -29,7 +29,7 @@
                     <!-- Hier wird der Username in den String gebastelt-->
                     <form action=<?= $shortsave ?> , method='post'>
                         <!-- Hier wird einfach nur ein submitbutton erzeugt-->
-                        <input type='submit' value='Löschen'>
+                        <input type='submit' value='Löschen' class="btn-default">
                     </form>
                 <?php endif; ?>
             </div>

@@ -36,7 +36,8 @@ $view['slots']->set('title', "Neuen Blogeintrag erstellen");
 
     <div class="row">
         <div class="col-xs-offset-5 col-xs-2 col-sm-offset-2 col-sm-3">
-            <input type="submit" value="Senden"/>
+            <br/>
+            <input type="submit" value="Senden" class="btn btn-default"/>
         </div>
     </div>
 

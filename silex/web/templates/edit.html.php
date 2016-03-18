@@ -39,8 +39,9 @@ $view['slots']->set('title', "Bitte den Beitrag bearbeiten: ");
     </div>
 
     <div class="row">
+        <br/>
         <div class="col-xs-offset-5 col-xs-2 col-sm-offset-2 col-sm-3">
-            <input type="submit" value="Senden"/>
+            <input type="submit" value="Senden" class="btn btn-default"/>
         </div>
     </div>
 
