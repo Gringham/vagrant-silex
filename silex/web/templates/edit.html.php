@@ -2,7 +2,7 @@
 /**
  * @var $site
  * @var $cont
- * @var $in
+ * @var $signed
  */
 ?>
 <?php $view->extend('layout.html.php');

@@ -2,21 +2,23 @@
 <?php /**
  * @var $cont
  * @var $full
- * @var $in
+ * @var $signed
  */
 ?>
 
 <?php $view['slots']->set('title', "Mein Blog") ?>
 <?php if (!$full): ?> <!--Wenn alle Beiträge ausgegeben werden sollen-->
     <?php foreach ($cont as $row) : ?> <!--Ausgabeschleife beginnt-->
-        <?php $inhalt = "/blog/{$row['id']}"; ?>
+        <?php $shortsave = "/blog/{$row['id']}"; ?>
 
         <div class='row jumbotron'>
 
             <div class="row ">
                 <div class="col-xs-12">
                     <h4>
-                        Beitrag: <?= $row['title'] ?>
+                        <em>
+                            Beitrag: <?= $row['title'] ?>
+                        </em>
                     </h4>
                 </div>
             </div>
@@ -26,7 +28,7 @@
             <div class="row alert alert-success">
                 <div class="col-xs-12">
                     <?= substr($row['text'], 0, 75); ?> <!--Ausgabe der ersten 75 Zeichen des Inhaltes-->
-                    <a href=<?= $inhalt ?>>weiterlesen... </a>
+                    <a href=<?= $shortsave ?>>weiterlesen... </a>
                 </div>
             </div>
 
@@ -40,7 +42,7 @@
             </div>
 
 
-            <?php if ($in == $row['author'] or $in == 'admin'): ?>
+            <?php if ($signed == $row['author'] or $signed == 'admin'): ?>
                 <!--Jeder User kann seine eigenen Beiträge löschen und der Admin alle-->
                 <br/>
                 <div class="row">
@@ -72,7 +74,9 @@
             <div class="row ">
                 <div class="col-xs-12">
                     <h4>
-                        Beitrag: <?= $row['title'] ?>
+                        <em>
+                            Beitrag: <?= $row['title'] ?>
+                        </em>
                     </h4>
                 </div>
             </div>
@@ -114,7 +118,7 @@
             </div>
 
 
-            <?php if ($in == $row['author'] or $in == 'admin'): ?>
+            <?php if ($signed == $row['author'] or $signed == 'admin'): ?>
                 <!--Jeder User kann seine eigenen Beiträge löschen und der Admin alle-->
                 <br/>
 

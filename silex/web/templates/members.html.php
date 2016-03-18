@@ -3,7 +3,7 @@
 /**
  * @var $cont
  * @var $view
- * @var $in
+ * @var $signed
  */
 ?>
 
@@ -22,12 +22,12 @@
 
         <div class='row'>
             <div class='col-xs-1'>
-                <?php if ($in == 'admin' and $row['username'] != 'admin'): ?>
+                <?php if ($signed == 'admin' and $row['username'] != 'admin'): ?>
                     <!-- Ist der User wirklich der Admin, dann zeige den löschen Knopf an-->
                     <br/><br/>
-                    <?php $inhalt = "/member/delete/'" . $row['username'] . "'" ?>
+                    <?php $shortsave = "/member/delete/'" . $row['username'] . "'" ?>
                     <!-- Hier wird der Username in den String gebastelt-->
-                    <form action=<?= $inhalt ?> , method='post'>
+                    <form action=<?= $shortsave ?> , method='post'>
                         <!-- Hier wird einfach nur ein submitbutton erzeugt-->
                         <input type='submit' value='Löschen'>
                     </form>

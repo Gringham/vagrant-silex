@@ -3,7 +3,7 @@
 /**
  * @var $active
  * @var $view
- * @var $in
+ * @var $signed
  */
 ?>
 
@@ -41,15 +41,15 @@
                 <!-- Der Php Tag ist eine Kurzabfrage, ob der Link als aktiv angezeigt werden mzss-->
                 <li <?= $active == 'new' ? 'class  = "active"' : '' ?>><a href="/new">Neuer Beitrag</a></li>
                 <li <?= $active == 'impressum' ? 'class= "active"' : '' ?>><a href="/impressum">Impressum</a></li>
-                <?php if (!$in) : ?>                             <!-- Abfrage ob ein User eingeloggt ist oder nicht-->
+                <?php if (!$signed) : ?>                             <!-- Abfrage ob ein User eingeloggt ist oder nicht-->
                     <li <?= $active == 'sign' ? 'class = "active"' : '' ?>><a href="/sign">Anmelden</a></li>
                 <?php else: ?>
                     <li <?= $active == 'sign' ? 'class = "active"' : '' ?>><a href="/sign_out">Abmelden
-                            von <?= $in ?></a>
+                            von <?= $signed ?></a>
                     </li>
                 <?php endif; ?>
 
-                <?php if ($in == 'admin') : ?>                      <!-- Abfrage, ob der User der Admin ist, dann bekommt er Zugriff auf die Mitgliederliste-->
+                <?php if ($signed == 'admin') : ?>                      <!-- Abfrage, ob der User der Admin ist, dann bekommt er Zugriff auf die Mitgliederliste-->
                     <li <?= $active == 'members' ? ' class = "active" ' : '' ?>><a href="/members">Mitgliederliste</a>
                     </li>
                 <?php endif; ?>
