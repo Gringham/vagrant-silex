@@ -25,7 +25,7 @@
                 <?php if ($signed == 'admin' and $row['username'] != 'admin'): ?>
                     <!-- Ist der User wirklich der Admin, dann zeige den löschen Knopf an-->
                     <br/><br/>
-                    <?php $shortsave = "/member/delete/'" . $row['username'] . "'" ?>
+                    <?php $shortsave = "/member/delete/" . $row['username'] ?>
                     <!-- Hier wird der Username in den String gebastelt-->
                     <form action=<?= $shortsave ?> , method='post'>
                         <!-- Hier wird einfach nur ein submitbutton erzeugt-->
