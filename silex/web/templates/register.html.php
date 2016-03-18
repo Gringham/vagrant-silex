@@ -42,7 +42,6 @@ $view['slots']->set('title', "Bitte melde dich an:");
     </div>
 
     <div class="row">
-        <br/>
         <div class="col-xs-3">
             <label>Passwort:</label>
         </div>
@@ -53,6 +52,7 @@ $view['slots']->set('title', "Bitte melde dich an:");
     </div>
 
     <div class="row">
+        </br>
         <div class="col-xs-offset-3 col-xs-3">
             <input type="submit" value="Ok" class="btn btn-default"/>
         </div>
