@@ -11,7 +11,7 @@
 <head>
     <title><?php $view['slots']->output('title', 'Default title') ?></title>
     <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/vendor/CSS/MyCss.css">
+    <link rel="stylesheet" href="/CSS/MyCss.css">
     <!-- Mein eigenes CSS File wird für den Hintergrund benötigt-->
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <!-- wird für die Navbar verwendet, JQuery muss vor Javascript eingebunden werden, da es sonst scheinbar nicht mitgeladen wird-->

@@ -1,0 +1,18 @@
+.bgimage {
+    background-image: url("Blurred backgrounds large2.jpg");
+    background-size: 100%;
+    background-attachment: fixed;
+}
+
+.jumbotron {
+    background: rgb(211, 211, 211); /* This is for ie8 and below */
+    background: rgba(211, 211, 211, 0.5);
+}
+
+#myContainer {
+    padding-top: 63px;
+}
+
+#home{
+    color: #FFFFFF !important;
+}

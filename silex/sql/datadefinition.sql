@@ -8,3 +8,8 @@ CREATE TABLE blog_post (
   text TEXT,
   created_at TEXT
 );
+
+CREATE TABLE usrpwd (
+  username TEXT,
+  password TEXT
+);
