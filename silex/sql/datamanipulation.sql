@@ -1,4 +1,5 @@
 USE silex;
 
 -- PREFILL YOUR TABLES HERE
-INSERT INTO blog_post (title, text, created_at) VALUES ('New Title', 'This is the content', CURRENT_DATE);
+INSERT INTO blog_post (title, text) VALUES ('New Title', 'This is the content'yy);
+INSERT INTO usrpwd (username, password) VALUES ('admin', '0000')
